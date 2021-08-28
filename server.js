@@ -11,6 +11,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 //parse incoming JSON data
 app.use(express.json());
+//nstructs the server to make certain files readily available 
+app.use(express.static('public'));
 
 function filterByQuery(query, animalsArray) {
     let filteredResults = animalsArray;
@@ -54,27 +56,25 @@ function createNewAnimal(body, animalsArray) {
     console.log(body);
     const animal = body;
     animalsArray.push(animal);
-
     fs.writeFileSync(
         path.join(__dirname, './data/animals.json'),
-        JSON.stringify({animals:animalsArray}, null, 2)
+        JSON.stringify({ animals: animalsArray }, null, 2)
     );
-
     return animal;
 }
 
 
-function validateAnimal(animal){
-    if(!animal.name || typeof animal.name !=='string'){
+function validateAnimal(animal) {
+    if (!animal.name || typeof animal.name !== 'string') {
         return false;
     }
-    if(!animal.species || typeof animal.species !== 'string'){
+    if (!animal.species || typeof animal.species !== 'string') {
         return false;
     }
-    if(!animal.diet || typeof animal.diet !=='string'){
+    if (!animal.diet || typeof animal.diet !== 'string') {
         return false;
     }
-    if(!animal.personalityTraits || !Array.isArray(animal.personalityTraits)){
+    if (!animal.personalityTraits || !Array.isArray(animal.personalityTraits)) {
         return false;
     }
     return true;
@@ -88,7 +88,7 @@ app.post('/api/animals', (req, res) => {
     req.body.id = animals.length.toString();
 
     //if any data in req.body is incorrect, send 400 error back
-    if (!validateAnimal(req.body)){
+    if (!validateAnimal(req.body)) {
         res.status(400).send('The animal is not properly formatted.')
     } else {
         //add animal to JSON file 
@@ -119,6 +119,24 @@ app.get('/api/animals/:id', (req, res) => {
     }
 });
 
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+})
+
+
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'))
+});
+
+app.get('./zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'))
+});
+
+//wildcard route to catch endpoints that doesn't exist
+app.get('*', (req, res) =>{
+    res.sendFile(path.join(__dirname, './public/index.html'))
+});
 
 app.listen(PORT, () => {
     console.log(`App server now on ${PORT}!`);
