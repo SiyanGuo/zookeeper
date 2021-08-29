@@ -117,6 +117,42 @@
         "loving"
       ],
       "id": "11"
+    },
+    {
+      "name": "animal 1",
+      "species": "panda",
+      "diet": "folivore",
+      "personalityTraits": [
+        "zany"
+      ],
+      "id": "12"
+    },
+    {
+      "name": "animal 2",
+      "species": "tiger",
+      "diet": "herbivore",
+      "personalityTraits": [
+        "hungry"
+      ],
+      "id": "13"
+    },
+    {
+      "name": "animal 4",
+      "species": "tiger",
+      "diet": "herbivore",
+      "personalityTraits": [
+        "anxious"
+      ],
+      "id": "14"
+    },
+    {
+      "name": "lucipe",
+      "species": "snake",
+      "diet": "carnivore",
+      "personalityTraits": [
+        "hungry"
+      ],
+      "id": "15"
     }
   ]
 }

@@ -25,7 +25,7 @@ const handleAnimalFormSubmit = event => {
     personalityTraits.push(selectedTraits[i].value);
   }
   const animalObject = { name, species, diet, personalityTraits };
-
+  console.log('animalAdded',animalObject);
   //POST to server
 
   fetch('/api/animals', {
@@ -37,17 +37,20 @@ const handleAnimalFormSubmit = event => {
     body: JSON.stringify(animalObject)
   })
     .then(response => {
+      //high level / generic response with additional info
+      console.log('fetch response', response);
       if (response.ok) {
+        //converting JSON to produce a JavaScript object
         return response.json();
       }
       alert('Error: ' + response.statusText);
+      //how to stop execute next then()??
+      return;
     })
     .then(postResponse => {
-      console.log(postResponse);
+      console.log('response.json()', postResponse);
       alert('Thank you for adding an animal!');
     })
 };
-
-
 
 $animalForm.addEventListener('submit', handleAnimalFormSubmit);
